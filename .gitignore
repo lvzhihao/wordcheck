@@ -36,3 +36,7 @@
 *.swo
 *.swp
 *.swa
+
+# bin
+bin/wordcensor
+demo/main
