@@ -15,5 +15,5 @@ install: all
 	@(for i in $(SUB_DIRS);do $(MAKE) -C $$i $@ || exit -1;done)
 
 clean:
-	@(for i in $(SUB_DIRS);do $(MAKE) -C $$i $@ || exit -1;done)
+	@(for i in $(SUB_DIRS) demo;do $(MAKE) -C $$i $@ || exit -1;done)
 	rm -rf main

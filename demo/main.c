@@ -38,7 +38,7 @@ int main()
 {
 	/*
 	char deny_file[100];
-	strcpy(deny_file, WORDCHECK_DIR);
+	strcpy(deny_file, DEFAULT_WORDCHECK_DIR);
 	strcat(deny_file, "/deny");
 	unlink(deny_file);
 	*/

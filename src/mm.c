@@ -43,7 +43,7 @@ int wordcheck_mm_create(wcMM** MM, wcMMInfo* mmInfo, const char* mm)
 	int fd;
     int fc;
 	char shared_mm_file[255];
-	strcpy(shared_mm_file, WORDCHECK_DIR);
+	strcpy(shared_mm_file, DEFAULT_WORDCHECK_DIR);
     DIR* dirp = opendir( shared_mm_file );
     if( dirp == NULL ) {
 		mkdir( shared_mm_file, WORDCHECK_DIR_MODE);
@@ -94,7 +94,7 @@ int wordcheck_mm_fetch(wcMM** MM, const char* mm)
 
     int fd;
 	char shared_mm_file[255];
-	strcpy(shared_mm_file, WORDCHECK_DIR);
+	strcpy(shared_mm_file, DEFAULT_WORDCHECK_DIR);
     DIR* dirp = opendir( shared_mm_file );
     if( dirp == NULL ) {
         return WORDCHECK_FAILURE;

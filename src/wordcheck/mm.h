@@ -3,9 +3,9 @@
  **/
 
 #ifdef MACOS  
-#define WORDCHECK_DIR	"/tmp/wordcheck"
+#define DEFAULT_WORDCHECK_DIR	"/tmp/wordcheck"
 #else
-#define WORDCHECK_DIR	"/dev/shm/wordcheck"
+#define DEFAULT_WORDCHECK_DIR	"/dev/shm/wordcheck"
 #endif
 #define WORDCHECK_DIR_MODE   (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)		/* DIR MODE */
 #define WORDCHECK_FILE_MODE   (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)		/* FILE MODE */
