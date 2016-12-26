@@ -76,7 +76,7 @@ int main()
 	wordcheck_create_table(&table);
 	const char file[30] = "demo.txt";
 	wordcheck_open_deny_file(file, table);
-	
+
     wcMMInfo *mmInfo;
 	wcMM *MM;
     wordcheck_mminfo_create(&mmInfo, "demo test", 1073741824);

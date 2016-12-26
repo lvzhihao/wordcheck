@@ -2,6 +2,8 @@
  ** edwin.lzh@gmail.com
  **/
 
+#include <stdint.h>
+
  typedef struct wcmmTable
 {
 	int num;
@@ -11,8 +13,8 @@
 typedef struct wcmmBlock 
 {
 	char word[2];		        /*字符*/
-	int isDeny;					/*此节为是否已经为一个deny字*/
-	int aNum;					/*所有节点个数*/
+	uint8_t isDeny;				/*此节为是否已经为一个deny字*/
+	uint aNum;					/*所有节点个数*/
 	uint cTbl_offset;			/*子节点*/
 } wcmmBlock;
 
