@@ -11,7 +11,7 @@ void wordcheck_create_block(wcBlock **block)
 	instance = (wcBlock *)malloc(sizeof(wcBlock));
 	memset(instance->word, '\0', 2);
 	instance->aNum = 0;
-	instance->isDeny = 0;
+	instance->weight = 0;
 	wcTable* table;
 	wordcheck_create_table(&table);
 	instance->cTbl = table;
@@ -58,7 +58,7 @@ void wordcheck_handle_table(char *words, wcTable *table)
 			block->aNum++;
 			wordcheck_handle_table(words, block->cTbl);
 		}else{
-			block->isDeny = 1;
+			block->weight = 1;
 		}
 	}else{
 		//printf("fail\n");
@@ -70,7 +70,7 @@ void wordcheck_handle_table(char *words, wcTable *table)
 			block->aNum++;
 			wordcheck_handle_table(words, block->cTbl);
 		}else{
-			block->isDeny = 1;
+			block->weight = 1;
 		}
 		g_hash_table_insert(table->tbl, buffer, block);
 	}

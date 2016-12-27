@@ -84,7 +84,7 @@ void wordcheck_mmtable_convert(gpointer key, gpointer val, gpointer data)
 	wcmmBlock *block = (wcmmBlock *)(convert->MM + offset);
 
 	strncpy(block->word, orgval->word, 2);
-	block->isDeny = orgval->isDeny;
+	block->weight = orgval->weight;
 	block->aNum = orgval->aNum;
 	//printf("%d\n", block->aNum);
 	//printf("%d\n", offset);
@@ -110,7 +110,7 @@ void wordcheck_create_mmblock(wcMM* MM)
 	instance = (wcmmBlock *)wordcheck_mm_malloc(MM, sizeof(wcBlock));
 	memset(instance->word, '\0', 2);
 	instance->aNum = 0;
-	instance->isDeny = 0;
+	instance->weight = 0;
 	instance->cTbl_offset = MM->offset;
 	wordcheck_create_mmtable(MM);
 }

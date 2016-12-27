@@ -13,7 +13,7 @@
 typedef struct wcmmBlock 
 {
 	char word[2];		        /*字符*/
-	uint8_t isDeny;				/*此节为是否已经为一个deny字*/
+	uint8_t weight;		/*权重，默认为1，范围1~255*/
 	uint aNum;					/*所有节点个数*/
 	uint cTbl_offset;			/*子节点*/
 } wcmmBlock;

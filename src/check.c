@@ -38,7 +38,7 @@ int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out,
 		memset(buf, '\0', filter_len+1);
 		memset(lastMatch, '\0', filter_len+1);
 		ret = wordcheck_handle_check((const char*)rettxt, wt, pos, &buf, &lastMatch);
-		if(ret == 0){
+		if(ret == WORDCHECK_SUCCESS){
 			wordcheck_utils_strreverse(lastMatch);
             num++;
 			//printf("%s\n", lastMatch);
@@ -157,7 +157,7 @@ int wordcheck_handle_check(const char* txt, wcTable* wt, int pos, char** buf, ch
     wordcheck_utils_strtoupper(buffer);    //不区分大小写
 	if(g_hash_table_lookup_extended(wt->tbl, buffer, NULL, (void **)&block) == TRUE){
 		if(block->aNum > 0){
-			if(block->isDeny == 1){
+			if(block->weight >= 1){
 				memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 				strcpy(*lastMatch, *buf);
                 if(pos == 0) {
@@ -196,7 +196,7 @@ int wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos,
 	if(wordcheck_mmhash_table_lookup(MM, ht, buffer, &offset) == WORDCHECK_SUCCESS){
 		wcmmBlock *block = (wcmmBlock *)(MM + offset);
 		if(block->aNum > 0){
-			if(block->isDeny == 1){
+			if(block->weight >= 1){
 				memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 				strcpy(*lastMatch, *buf);
                 if(pos == 0) {
