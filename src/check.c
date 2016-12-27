@@ -18,9 +18,28 @@ wcResult* wordcheck_check_result_create(void)
 {
 	wcResult* wc = (wcResult *)malloc(sizeof(wcResult));
 	wc->string = NULL;
+    wc->info = wordcheck_check_result_info_create();
 	wc->start = 0;
 	wc->len = 0;
 	return wc;
+}
+
+void wordcheck_check_result_free(wcResult* result)
+{
+    free(result->info);
+    free(result);
+}
+
+wcResultInfo* wordcheck_check_result_info_create(void) 
+{
+    wcResultInfo* info = (wcResultInfo *)malloc(sizeof(wcResultInfo));
+    info->weight = 0;
+    return info;
+}
+
+void wordcheck_check_result_info_free(wcResultInfo* info) 
+{
+    free(info);
 }
 
 int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out, int* out_len, wcList **outList)
@@ -37,7 +56,8 @@ int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out,
 	while(pos >= 0){
 		memset(buf, '\0', filter_len+1);
 		memset(lastMatch, '\0', filter_len+1);
-		ret = wordcheck_handle_check((const char*)rettxt, wt, pos, &buf, &lastMatch);
+		wcResult *ltVal = wordcheck_check_result_create();
+		ret = wordcheck_handle_check((const char*)rettxt, wt, pos, &(ltVal->info), &buf, &lastMatch);
 		if(ret == WORDCHECK_SUCCESS){
 			wordcheck_utils_strreverse(lastMatch);
             num++;
@@ -48,7 +68,6 @@ int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out,
 				char *ltKey = (char *)malloc(strlen(lastMatch)+1);
 				memset(ltKey, '\0', strlen(lastMatch) + 1);
 				strncpy(ltKey, lastMatch, strlen(lastMatch));
-				wcResult *ltVal = wordcheck_check_result_create();
 				ltVal->len = strlen(lastMatch);
 				ltVal->string = (char *)malloc(ltVal->len + 1);
 				memset(ltVal->string, '\0', ltVal->len + 1);
@@ -58,6 +77,7 @@ int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out,
 			}
 		}else{
 			pos = pos - 1;
+            free(ltVal);
 		}
 	}
 	if(outList != NULL){
@@ -84,7 +104,8 @@ int wordcheck_mm_check(wcMM* MM, wcmmTable* wt, const char* filter, int filter_l
 	while(pos >= 0){
 		memset(buf, '\0', filter_len + 1);
 		memset(lastMatch, '\0', filter_len + 1);
-		ret = wordcheck_mm_handle_check(MM, (const char*)rettxt, wt, pos, &buf, &lastMatch);
+		wcResult *ltVal = wordcheck_check_result_create();
+		ret = wordcheck_mm_handle_check(MM, (const char*)rettxt, wt, pos, &(ltVal->info), &buf, &lastMatch);
 		if(ret == 0){
 			wordcheck_utils_strreverse(lastMatch);
             num++;
@@ -95,7 +116,6 @@ int wordcheck_mm_check(wcMM* MM, wcmmTable* wt, const char* filter, int filter_l
 				char *ltKey = (char *)malloc(strlen(lastMatch)+1);
 				memset(ltKey, '\0', strlen(lastMatch) + 1);
 				strncpy(ltKey, lastMatch, strlen(lastMatch));
-				wcResult *ltVal = wordcheck_check_result_create();
 				ltVal->len = strlen(lastMatch);
 				ltVal->string = (char *)malloc(ltVal->len + 1);
 				memset(ltVal->string, '\0', ltVal->len + 1);
@@ -105,6 +125,7 @@ int wordcheck_mm_check(wcMM* MM, wcmmTable* wt, const char* filter, int filter_l
 			}
 		}else{
 			pos = pos - 1;
+            free(ltVal);
 		}
 	}
 	if(outList != NULL){
@@ -147,7 +168,7 @@ int wordcheck_handle_replace(char *txt, long start, long size)
 	return size;
 }
 
-int wordcheck_handle_check(const char* txt, wcTable* wt, int pos, char** buf, char** lastMatch)
+int wordcheck_handle_check(const char* txt, wcTable* wt, int pos, wcResultInfo** resultInfo, char** buf, char** lastMatch)
 {
 	wcBlock *block = (wcBlock *)malloc(sizeof(wcBlock));
 	char *buffer = malloc(2);
@@ -160,18 +181,20 @@ int wordcheck_handle_check(const char* txt, wcTable* wt, int pos, char** buf, ch
 			if(block->weight >= 1){
 				memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 				strcpy(*lastMatch, *buf);
+                ((wcResultInfo *)*resultInfo)->weight = block->weight;
                 if(pos == 0) {
                     return WORDCHECK_SUCCESS;
                 }
 			}//保留最后一个匹配结果
             if(pos > 0){
-                return wordcheck_handle_check(txt, block->cTbl, pos-1, buf, lastMatch);
+                return wordcheck_handle_check(txt, block->cTbl, pos-1, resultInfo, buf, lastMatch);
             }else{
 			    return WORDCHECK_FAILURE;
             }
 		}else{
 			memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 			strcpy(*lastMatch, *buf);
+            ((wcResultInfo *)*resultInfo)->weight = block->weight;
 			return WORDCHECK_SUCCESS;
 		}
 	}else{
@@ -184,7 +207,7 @@ int wordcheck_handle_check(const char* txt, wcTable* wt, int pos, char** buf, ch
 	}
 }
 
-int wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos, char** buf, char** lastMatch)
+int wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos, wcResultInfo** resultInfo, char** buf, char** lastMatch)
 {
 	char *buffer = malloc(2);
 	memset(buffer, '\0', 2);
@@ -199,19 +222,21 @@ int wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos,
 			if(block->weight >= 1){
 				memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 				strcpy(*lastMatch, *buf);
+                ((wcResultInfo *)*resultInfo)->weight = block->weight;
                 if(pos == 0) {
                     return WORDCHECK_SUCCESS;
                 }
 			}//保留最后一个匹配结果
 			wcmmTable *table = (wcmmTable *)(MM + block->cTbl_offset);
             if(pos > 0){
-                return wordcheck_mm_handle_check(MM, txt, table, pos-1, buf, lastMatch);
+                return wordcheck_mm_handle_check(MM, txt, table, pos-1, resultInfo, buf, lastMatch);
             }else{
 			    return WORDCHECK_FAILURE;
             }
 		}else{
 			memset(*lastMatch, '\0', strlen(*lastMatch)+1);
 			strcpy(*lastMatch, *buf);
+            ((wcResultInfo *)*resultInfo)->weight = block->weight;
 			return WORDCHECK_SUCCESS;
 		}
 	}else{

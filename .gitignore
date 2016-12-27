@@ -40,3 +40,4 @@
 # bin
 bin/wordcensor
 demo/main
+src/.libs

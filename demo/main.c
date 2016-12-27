@@ -132,6 +132,7 @@ int main()
         //printf("%s\n", list->key);
         wcResult* res = (wcResult *)lt->val;
         printf("-->禁词: %s\n", res->string);
+        printf("-->权重: %d\n", res->info->weight);
         printf("-->起始: %d\n", res->start);
         printf("-->长度: %d\n\n", res->len);
         wordcheck_list_next_item(&list);
