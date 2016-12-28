@@ -35,7 +35,7 @@ int wordcheck_mmhash_table_insert(wcMM* MM, wcmmHash* ht, const char* key, uint 
         ht->offset[sec] = MM->offset;
         lt = wordcheck_mmnode_list_create(MM);
         lt->block_offset = val;
-        memcpy(lt->word, key, 2);
+        memcpy(lt->word, key, 1);
         return WORDCHECK_SUCCESS;
     } else {
         lt = (wcmmNode*)(MM + ht->offset[sec]);
@@ -58,7 +58,7 @@ int wordcheck_mmhash_table_lookup(wcMM* MM, wcmmHash* ht, const char* key, uint*
 wcmmNode* wordcheck_mmnode_list_create(wcMM* MM)
 {
     wcmmNode* lt = (wcmmNode*)wordcheck_mm_malloc(MM, sizeof(wcmmNode));
-    memset(lt->word, '\0', 2);
+    memset(lt->word, '\0', 1);
     lt->next_offset = 0;
     lt->block_offset = 0;
     return lt;
@@ -68,7 +68,7 @@ int wordcheck_mmnode_list_insert(wcMM* MM, wcmmNode* list, const char* key, uint
 {
     wcmmNode* lt = list;
     while (lt->next_offset != 0) {
-        if (strcmp(lt->word, key) == 0) {
+        if (strncmp(lt->word, key, 1) == 0) {
             return WORDCHECK_FAILURE;
         }
         lt = (wcmmNode*)(MM + lt->next_offset);
@@ -76,7 +76,7 @@ int wordcheck_mmnode_list_insert(wcMM* MM, wcmmNode* list, const char* key, uint
     lt->next_offset = MM->offset;
     wcmmNode* new_lt = wordcheck_mmnode_list_create(MM);
     new_lt->block_offset = val;
-    memcpy(new_lt->word, key, 2);
+    memcpy(new_lt->word, key, 1);
     return WORDCHECK_SUCCESS;
 }
 
@@ -84,7 +84,7 @@ int wordcheck_mmnode_list_lookup(wcMM* MM, wcmmNode* list, const char* key, uint
 {
     wcmmNode* lt = list;
     while (lt != NULL) {
-        if (strcmp(lt->word, key) == 0) {
+        if (strncmp(lt->word, key, 1) == 0) {
             *val = lt->block_offset;
             return WORDCHECK_SUCCESS;
         }
@@ -131,7 +131,7 @@ wcList* wordcheck_list_lookup(wcList* list, void* key, void** val)
 {
     wcList* lt;
     while (wordcheck_list_get_current(list, &lt) == WORDCHECK_SUCCESS) {
-        if (strcmp(lt->key, key) == 0) {
+        if (strncmp(lt->key, key, 1) == 0) {
             *val = lt->val;
             return lt;
         }
