@@ -19,7 +19,7 @@ typedef struct wordcheckMMInfo
 
 // 共享内存
 typedef struct wordcheckMM {
-    //sem_t mutex;				/* the mutex: a Posix memory-based semaphore */
+    //sem_t mutex;              /* the mutex: a Posix memory-based semaphore */
     uint offset;                /* MM size offset */
     uint mmtable_start;         /* mmtable start */
 } wcMM;

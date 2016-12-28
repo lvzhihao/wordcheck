@@ -4,18 +4,18 @@
 
 #include <stdint.h>
 
- typedef struct wcmmTable
+typedef struct wcmmTable
 {
-	int num;
-	uint tbl_offset;
+    int num;
+    uint tbl_offset;
 } wcmmTable;
 
 typedef struct wcmmBlock 
 {
-	char word[2];		        /*字符*/
-	uint8_t weight;		/*权重，默认为1，范围1~255*/
-	uint aNum;					/*所有节点个数*/
-	uint cTbl_offset;			/*子节点*/
+    char word[2];        /*字符*/
+    uint16_t info;       /*信息*/
+    uint8_t aNum;        /*所有节点个数*/
+    uint cTbl_offset;    /*子节点*/
 } wcmmBlock;
 
 
@@ -36,4 +36,3 @@ void wordcheck_create_mmblock(wcMM* MM);
 
 /*foreach*/
 void wordcheck_mmtable_convert(gpointer key, gpointer val, gpointer data);
-

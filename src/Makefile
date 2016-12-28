@@ -9,7 +9,7 @@ else
 	MVARS := 
 endif
 
-SUB_LIB=utils table docs check mm hash mmtable
+SUB_LIB=utils docs table check mm hash mmtable
 
 all: ./libwordcheck.la
 

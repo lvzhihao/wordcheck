@@ -15,4 +15,3 @@ void wordcheck_utils_strtolower(char *str);
 void wordcheck_utils_strreverse(char *str);
 
 int wordcheck_utils_strpos(char *haystack, char *needle);
-

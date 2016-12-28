@@ -2,38 +2,27 @@
  ** edwin.lzh@gmail.com
  **/
 
-#include <stdint.h>
-
-typedef struct wcResultInfo
-{
-	uint8_t weight;     //结果信息：权重
-} wcResultInfo;
-
 typedef struct wcResult
 {
-	char* string;
-    wcResultInfo* info;
-	uint start;
-	uint len;
+    char* string;
+    wcWordInfo* info;
+    uint start;
+    uint len;
 } wcResult;
 
 wcResult* wordcheck_check_result_create(void);
 
-wcResultInfo* wordcheck_check_result_info_create(void);
-
 void wordcheck_check_result_free(wcResult*);
-
-void wordcheck_check_result_info_free(wcResultInfo*);
 
 int wordcheck_check(wcTable* wt, const char* filter, int filter_len, char** out, int* out_len, wcList **outList);
 
 int wordcheck_handle_replace(char *txt, long start, long size);
 
-int  wordcheck_handle_check(const char* txt, wcTable* wt, int pos, wcResultInfo** resultInfo, char** buf, char** lastMatch);
+int  wordcheck_handle_check(const char* txt, wcTable* wt, int pos, wcWordInfo** resultInfo, char** buf, char** lastMatch);
 
 int wordcheck_mm_check(wcMM* MM, wcmmTable* wt, const char* filter, int filter_len, char** out, int* out_len, wcList **outList);
 
-int  wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos, wcResultInfo** resultInfo, char** buf, char** lastMatch);
+int  wordcheck_mm_handle_check(wcMM* MM, const char* txt, wcmmTable* wt, int pos, wcWordInfo** resultInfo, char** buf, char** lastMatch);
 
 int wordcheck_set_replace_op(const char* op);
 
@@ -46,4 +35,3 @@ int wordcheck_get_replace_len(void);
 void wordcheck_reset_replace_op(void);
 
 void wordcheck_reset_replace_len(void);
-

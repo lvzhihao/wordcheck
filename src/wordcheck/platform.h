@@ -20,15 +20,15 @@
 #include "utils.h"
 
 #ifndef WORDCHECK_VERSION
-#define WORDCHECK_VERSION "1.0.0"	/*version*/
+#define WORDCHECK_VERSION "1.0.0"    /*version*/
 #endif
 
 #ifndef WORDCHECK_MM_HASH_SEC
 #define WORDCHECK_MM_HASH_SEC   16 
 #endif
 
-#define WORDCHECK_SUCCESS 0		/*成功*/
-#define WORDCHECK_FAILURE 1		/*失败*/
+#define WORDCHECK_SUCCESS 0    /*成功*/
+#define WORDCHECK_FAILURE 1    /*失败*/
 
 #define WORDCHECK_MMAP_PREFIX    20
 #define WORDCHECK_DEFAULT_MM_SIZE      67108864    //64M

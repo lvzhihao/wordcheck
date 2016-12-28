@@ -12,10 +12,10 @@ typedef struct wcTable
 
 typedef struct wcBlock 
 {
-	char word[2];		/*字符*/
-	uint8_t weight;		/*权重，默认为1，范围1~255*/
-	uint aNum;			/*所有节点个数*/
-	wcTable *cTbl;		/*子节点*/
+	char word[2];    /*字符*/
+    uint16_t info;   /*信息*/
+	uint8_t aNum;    /*所有节点个数*/
+	wcTable *cTbl;   /*子节点*/
 } wcBlock;
 
 /*新建词典*/
@@ -25,10 +25,10 @@ void wordcheck_create_table(wcTable **table);
 void wordcheck_free_table(wcTable *table);
 
 /*处理词库*/
-void wordcheck_handle_table(char* words, wcTable *table);					
+void wordcheck_handle_table(char* words, uint16_t info, wcTable *table);
 
 /*添加词*/
-int wordcheck_insert_table(const char *words,  wcTable *table);
+int wordcheck_insert_table(const char *words, uint16_t info, wcTable *table);
 
 /*新建block*/
 void wordcheck_create_block(wcBlock **block);

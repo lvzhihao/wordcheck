@@ -4,22 +4,22 @@
 
 typedef struct wcmmNode
 {
-	char word[2];
-	uint block_offset;
-	uint next_offset;
+    char word[2];
+    uint block_offset;
+    uint next_offset;
 } wcmmNode;
 
 typedef struct wcmmHash
 {
-	uint offset[WORDCHECK_MM_HASH_SEC];
+    uint offset[WORDCHECK_MM_HASH_SEC];
 } wcmmHash;
 
 typedef struct wcList
 {
-	void* key;
-	void* val;
-	void* pre;
-	void* next;
+    void* key;
+    void* val;
+    void* pre;
+    void* next;
 } wcList;
 
 uint wordcheck_mmhash_get_str(const char* str);
