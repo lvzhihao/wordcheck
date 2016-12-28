@@ -2,20 +2,17 @@
  ** edwin.lzh@gmail.com
  **/
 
-typedef struct wcmmNode
-{
+typedef struct wcmmNode {
     char word[2];
     uint block_offset;
     uint next_offset;
 } wcmmNode;
 
-typedef struct wcmmHash
-{
+typedef struct wcmmHash {
     uint offset[WORDCHECK_MM_HASH_SEC];
 } wcmmHash;
 
-typedef struct wcList
-{
+typedef struct wcList {
     void* key;
     void* val;
     void* pre;
@@ -34,7 +31,7 @@ int wordcheck_mmhash_table_insert(wcMM* MM, wcmmHash* ht, const char* key, uint 
 
 //int wordcheck_mmhash_table_remove(wcMM* MM, wcmmHash* ht, const char* key);		//TODO
 
-int wordcheck_mmhash_table_lookup(wcMM* MM, wcmmHash* ht,const char* key, uint* val);
+int wordcheck_mmhash_table_lookup(wcMM* MM, wcmmHash* ht, const char* key, uint* val);
 
 wcmmNode* wordcheck_mmnode_list_create(wcMM* MM);
 
@@ -55,12 +52,12 @@ wcList* wordcheck_list_insert(wcList* list, void* key, void* val);
 
 wcList* wordcheck_list_lookup(wcList* list, void* key, void** val);
 
-wcList* wordcheck_list_rewind(wcList* list); 
+wcList* wordcheck_list_rewind(wcList* list);
 
 wcList* wordcheck_list_last(wcList* list);
 
 wcList* wordcheck_list_reverse(wcList* list);
 
-int wordcheck_list_get_current(wcList* list, wcList **lt);
+int wordcheck_list_get_current(wcList* list, wcList** lt);
 
 int wordcheck_list_next_item(wcList** list);
