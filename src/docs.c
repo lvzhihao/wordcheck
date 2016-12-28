@@ -30,8 +30,21 @@ int wordcheck_open_deny_file(const char *file, wcTable *table)
 
 int wordcheck_insert_deny(const char *line, wcTable *table)
 {
+    char *word = malloc(1024);
+    uint8_t weight = 1;
+    int len = wordcheck_utils_strpos((char *)line, "\t");
+    if (len > 0) {
+        memset(word, '\0', len + 1);
+        memcpy(word, line, len);
+        uint8_t lw = atoi(line + len);
+        weight = lw > 0 ? lw : weight;
+    } else {
+        memset(word, '\0', strlen(line) + 1);
+        memcpy(word, line, strlen(line));
+    }
     wcWordInfo *info = wordcheck_word_info_create();
-    return wordcheck_insert_table(line, wordcheck_word_info_encode(info), table);
+    info->weight = weight;
+    return wordcheck_insert_table(word, wordcheck_word_info_encode(info), table);
 }
 
 wcWordInfo *wordcheck_word_info_create(void)
