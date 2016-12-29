@@ -10,7 +10,7 @@ typedef struct wcmmTable {
 } wcmmTable;
 
 typedef struct wcmmBlock {
-    char word[1];     /*字符*/
+    char word[2];     /*字符*/
     uint16_t info;    /*信息*/
     uint8_t aNum;     /*所有节点个数*/
     uint cTbl_offset; /*子节点*/

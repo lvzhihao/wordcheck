@@ -10,7 +10,7 @@ void wordcheck_create_block(wcBlock **block)
 {
     wcBlock *instance;
     instance = (wcBlock *)malloc(sizeof(wcBlock));
-    memset(instance->word, '\0', 1);
+    memset(instance->word, '\0', 2);
     instance->aNum = 0;
     instance->info = 0;
     wcTable *table;
@@ -44,8 +44,8 @@ void wordcheck_free_table(wcTable *table)
 void wordcheck_handle_table(char *words, uint16_t info, wcTable *table)
 {
     long pos = strlen(words) - 1;
-    unsigned char *buffer = (unsigned char *)malloc(1);
-    memset(buffer, '\0', 1);
+    unsigned char *buffer = (unsigned char *)malloc(2);
+    memset(buffer, '\0', 2);
     memset(buffer, words[pos], 1);
     //printf("%d\n", pos);
     //printf("%d\n", table->num);return;

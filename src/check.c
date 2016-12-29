@@ -159,8 +159,8 @@ int wordcheck_handle_replace(char *txt, long start, long size)
 int wordcheck_handle_check(const char *txt, wcTable *wt, int pos, wcWordInfo **resultInfo, char **buf, char **lastMatch)
 {
     wcBlock *block = (wcBlock *)malloc(sizeof(wcBlock));
-    char *buffer = malloc(1);
-    memset(buffer, '\0', 1);
+    char *buffer = malloc(2);
+    memset(buffer, '\0', 2);
     memset(buffer, txt[pos], 1);
     strcat(*buf, buffer);
     wordcheck_utils_strtoupper(buffer);  //不区分大小写
@@ -197,8 +197,8 @@ int wordcheck_handle_check(const char *txt, wcTable *wt, int pos, wcWordInfo **r
 
 int wordcheck_mm_handle_check(wcMM *MM, const char *txt, wcmmTable *wt, int pos, wcWordInfo **resultInfo, char **buf, char **lastMatch)
 {
-    char *buffer = malloc(1);
-    memset(buffer, '\0', 1);
+    char *buffer = malloc(2);
+    memset(buffer, '\0', 2);
     memset(buffer, txt[pos], 1);
     strcat(*buf, buffer);
     uint offset;
